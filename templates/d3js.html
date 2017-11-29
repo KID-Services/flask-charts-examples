@@ -7,7 +7,21 @@
 {% block title %}d3js | {{ super() }}{% endblock %}
 {% block content %}
 
+<div class="chart"></div>
+
 {% endblock %}
 
 {% block scripts %}
+<script src="/static/js/d3.min.js"></script>
+<script>
+var data = [30, 86, 168, 281, 303, 365];
+
+d3.select(".chart")
+  .selectAll("div")
+  .data(data)
+    .enter()
+    .append("div")
+    .style("width", function(d) { return d + "px"; })
+    .text(function(d) { return d; });
+</script>
 {% endblock %}
