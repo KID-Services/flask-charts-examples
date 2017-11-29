@@ -12,6 +12,15 @@ Examples of different chart libraries with flask
 
         pip install flask
 
+3. For postgres install `psycopg2`
+
+        pip install psycopg2
+
+4. Create a postgres database
+
+        psql
+        CREATE DATABASE flask_chart_examples;
+
 
 ## Run the simple app
 

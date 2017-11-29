@@ -1,0 +1,19 @@
+{% macro render_navigation(active_page) %}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link{% if active_page == 'home' %} active{% endif %}" href="#">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">d3js</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Bokeh</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Matplotlib</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Flot</a>
+    </li>
+</ul>
+{% endmacro %}
