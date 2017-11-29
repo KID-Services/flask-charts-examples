@@ -1,3 +1,4 @@
+import json
 from flask import Flask, g, render_template
 
 import models
@@ -19,7 +20,11 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    data = models.PeopleServed.select().dicts()
+    people_list = []
+    for item in data:
+        people_list.append([str(item['date']), item['people']])
+    return render_template('index.html', data=json.dumps(people_list))
 
 if __name__ == '__main__':
     models.initialise()
