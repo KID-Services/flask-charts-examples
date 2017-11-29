@@ -21,6 +21,9 @@ Examples of different chart libraries with flask
         psql
         CREATE DATABASE flask_chart_examples;
 
+5. Create the data
+
+        python setup_data.py
 
 ## Run the simple app
 

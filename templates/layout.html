@@ -9,7 +9,9 @@
     </head>
     <body>
         <div class="container-fluid">
+        {% block navigation %}
         {{ render_navigation('home') }}
+        {% endblock %}
         {% block content %}
         {% endblock %}
         </div>

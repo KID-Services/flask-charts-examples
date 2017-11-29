@@ -17,6 +17,9 @@ def after_request(response):
     g.db.close
     return response
 
+@app.route('/d3js')
+def d3js():
+    return render_template('d3js.html')
 
 @app.route('/')
 def index():

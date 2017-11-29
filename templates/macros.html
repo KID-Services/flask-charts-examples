@@ -1,10 +1,10 @@
 {% macro render_navigation(active_page) %}
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link{% if active_page == 'home' %} active{% endif %}" href="#">Home</a>
+        <a class="nav-link{% if active_page == 'home' %} active{% endif %}" href="{{ url_for('index') }}">Home</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">d3js</a>
+        <a class="nav-link{% if active_page == 'd3js' %} active{% endif %}" href="{{ url_for('d3js') }}">d3js</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="#">Bokeh</a>
