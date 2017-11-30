@@ -7,16 +7,41 @@
 {% block title %}flot | {{ super() }}{% endblock %}
 {% block content %}
 
-<div class="chart"></div>
+<div class="demo-container">
+        <div id="placeholder" class="demo-placeholder"></div>
+    </div>
 
 {% endblock %}
 
 {% block scripts %}
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/jquery.flot.js"></script>
+<script src="/static/js/jquery.flot.time.js"></script>
 <script>
+$(function() {
+    
 {% if data %}
 var data = {{ data | safe }};
 {% else %}
 var data = [];
 {% endif %}
+
+function doPlot(position) {
+    $.plot("#placeholder", [
+        { data: data, label: "People per day" },
+    ], {
+        xaxes: [ { mode: "time" } ],
+        yaxes: [ { min: 0 }, {
+            // align if we are to the right
+            alignTicksWithAxis: position == "right" ? 1 : null,
+            position: position,
+        } ],
+        legend: { position: "sw" }
+    });
+}
+
+doPlot("right");
+
+});
 </script>
 {% endblock %}
