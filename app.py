@@ -7,6 +7,12 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
 
+import numpy as np
+
+from bokeh.embed import components
+from bokeh.plotting import figure
+from bokeh.resources import INLINE
+
 import models
 
 app = Flask(__name__)
@@ -48,6 +54,16 @@ def get_flot_data():
         people_list.append([time, item['people']])
     return people_list
 
+def get_x_y_coords():
+    data = models.PeopleServed.select().order_by(models.PeopleServed.date.desc()).limit(15).dicts()
+    x=[]
+    y=[]
+    for item in data:
+        x.append(item['date'])
+        y.append(item['people'])
+    return x, y
+    
+
 @app.route('/d3js')
 def d3js():
     data = get_data()
@@ -56,8 +72,41 @@ def d3js():
 
 @app.route('/bokeh')
 def bokeh():
-    data = get_data()
-    return render_template('bokeh.html', data=data)
+    # prepare some data
+    x, y = get_x_y_coords()
+
+    # create a new plot with a title and axis labels
+    p_fig = figure(
+        title="people per day",
+        x_axis_label='date',
+        y_axis_label='people',
+        plot_width=600,
+        plot_height=600,
+        x_axis_type="datetime"
+    )
+
+    # add a line renderer with legend and line thickness
+    p_fig.line(
+        x,
+        y,
+        legend="People per Day",
+        line_width=2,
+        color='navy'
+    )
+
+    # grab the static resources
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    # render template
+    script, div = components(p_fig)
+    return render_template(
+        'bokeh.html',
+        plot_script=script,
+        plot_div=div,
+        js_resources=js_resources,
+        css_resources=css_resources,
+    )
 
 @app.route('/maplotlib')
 def matplotlib():
@@ -67,12 +116,7 @@ def matplotlib():
 def matplotlib_image():
     fig=Figure()
     ax=fig.add_subplot(111)
-    data = models.PeopleServed.select().order_by(models.PeopleServed.date.desc()).limit(15).dicts()
-    x=[]
-    y=[]
-    for item in data:
-        x.append(item['date'])
-        y.append(item['people'])
+    x, y = get_x_y_coords()
     ax.plot_date(x, y, '-')
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     fig.autofmt_xdate()

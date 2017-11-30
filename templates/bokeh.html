@@ -6,17 +6,13 @@
 
 {% block title %}bokeh | {{ super() }}{% endblock %}
 {% block content %}
+{{ css_resources|indent(4)|safe }}
 
-<div class="chart"></div>
+{{ plot_div|indent(4)|safe }}
 
 {% endblock %}
 
 {% block scripts %}
-<script>
-{% if data %}
-var data = {{ data | safe }};
-{% else %}
-var data = [];
-{% endif %}
-</script>
+{{ js_resources|indent(4)|safe }}
+{{ plot_script|indent(4)|safe }}
 {% endblock %}
