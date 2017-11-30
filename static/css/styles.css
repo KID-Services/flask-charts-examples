@@ -39,3 +39,13 @@
     border-spacing: 5px;
   }
   /* End flot chart */
+
+  /* D3js */
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+  }
+
+  /* End d3js */
