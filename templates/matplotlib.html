@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block navigation %}
+{{ render_navigation('matplotlib') }}
+{% endblock %}
+
+{% block title %}bokeh | {{ super() }}{% endblock %}
+{% block content %}
+
+<div class="chart"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+{% if data %}
+var data = {{ data | safe }};
+{% else %}
+var data = [];
+{% endif %}
+</script>
+{% endblock %}

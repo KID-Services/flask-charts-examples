@@ -13,7 +13,8 @@ def daterange(start_date, end_date):
 
 
 def create_data():
-    models.initialise()
+    # Delete all people served
+    models.PeopleServed.delete().execute()
 
     start = datetime.date(year=2015, month=2, day=1)
     end = datetime.date(year=2017, month=1, day=1)
@@ -26,4 +27,5 @@ def create_data():
 
 
 if __name__ == '__main__':
+    models.initialise()
     create_data()

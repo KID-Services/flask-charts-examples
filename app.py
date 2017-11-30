@@ -17,17 +17,43 @@ def after_request(response):
     g.db.close
     return response
 
-@app.route('/d3js')
-def d3js():
-    return render_template('d3js.html')
 
-@app.route('/')
-def index():
+def get_data():
     data = models.PeopleServed.select().dicts()
     people_list = []
     for item in data:
-        people_list.append([str(item['date']), item['people']])
-    return render_template('index.html', data=json.dumps(people_list))
+        people_list.append({'data': str(item['date']), 'people': item['people']})
+    return people_list
+
+
+@app.route('/d3js')
+def d3js():
+    data = get_data()
+    return render_template('d3js.html', data=data)
+
+
+@app.route('/bokeh')
+def bokeh():
+    data = get_data()
+    return render_template('bokeh.html', data=data)
+
+
+@app.route('/maplotlib')
+def matplotlib():
+    data = get_data()
+    return render_template('matplotlib.html', data=data)
+
+
+@app.route('/flot')
+def flot():
+    data = get_data()
+    return render_template('flot.html', data=data)
+
+
+@app.route('/')
+def index():
+    data = get_data()
+    return render_template('index.html', data=data)
 
 if __name__ == '__main__':
     models.initialise()

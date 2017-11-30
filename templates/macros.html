@@ -7,13 +7,13 @@
         <a class="nav-link{% if active_page == 'd3js' %} active{% endif %}" href="{{ url_for('d3js') }}">d3js</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Bokeh</a>
+        <a class="nav-link{% if active_page == 'bokeh' %} active{% endif %}" href="{{ url_for('bokeh') }}">Bokeh</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Matplotlib</a>
+        <a class="nav-link{% if active_page == 'matplotlib' %} active{% endif %}" href="{{ url_for('matplotlib') }}">Matplotlib</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Flot</a>
+        <a class="nav-link{% if active_page == 'flot' %} active{% endif %}" href="{{ url_for('flot') }}">Flot</a>
     </li>
 </ul>
 {% endmacro %}
