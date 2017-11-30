@@ -1,6 +1,11 @@
 import json
 import datetime, calendar
-from flask import Flask, g, render_template
+from io import BytesIO
+from flask import Flask, g, make_response, render_template
+    
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.dates import DateFormatter
 
 import models
 
@@ -54,11 +59,29 @@ def bokeh():
     data = get_data()
     return render_template('bokeh.html', data=data)
 
-
 @app.route('/maplotlib')
 def matplotlib():
-    data = get_data()
-    return render_template('matplotlib.html', data=data)
+    return render_template('matplotlib.html')
+
+@app.route('/images/maplotlib.png')
+def matplotlib_image():
+    fig=Figure()
+    ax=fig.add_subplot(111)
+    data = models.PeopleServed.select().order_by(models.PeopleServed.date.desc()).limit(15).dicts()
+    x=[]
+    y=[]
+    for item in data:
+        x.append(item['date'])
+        y.append(item['people'])
+    ax.plot_date(x, y, '-')
+    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+    fig.autofmt_xdate()
+    canvas=FigureCanvas(fig)
+    png_output = BytesIO()
+    canvas.print_png(png_output)
+    response=make_response(png_output.getvalue())
+    response.headers['Content-Type'] = 'image/png'
+    return response
 
 
 @app.route('/flot')

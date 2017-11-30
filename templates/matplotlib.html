@@ -7,16 +7,11 @@
 {% block title %}bokeh | {{ super() }}{% endblock %}
 {% block content %}
 
-<div class="chart"></div>
+<div class="chart">
+    <img src="{{ url_for('matplotlib_image') }}">
+</div>
 
 {% endblock %}
 
 {% block scripts %}
-<script>
-{% if data %}
-var data = {{ data | safe }};
-{% else %}
-var data = [];
-{% endif %}
-</script>
 {% endblock %}
